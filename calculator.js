@@ -11,7 +11,10 @@ function multiply(a, b){
 }
 
 function divide(a, b){
-    return a / b
+    if (b) {
+        return a / b
+    } else return 'Zero division'
+    
 }
 
 function operate(a, b, operator){
@@ -38,6 +41,26 @@ const digitsAndOperators = document.querySelectorAll('.digit, .operator')
 
 digitsAndOperators.forEach((btn) => {
     btn.addEventListener('click', (e) => {
+        const isDigit = e.target.classList.contains('digit');
+        const value = e.target.textContent;
+
+        if (!num1 && isDigit) {
+            num1 = Number(value)
+        } else if ( num1 && isDigit){
+            num2 = Number(value)
+        } else {
+            operator = value
+        }
         return display.value = e.target.textContent;
     })
+})
+
+const btnEquals = document.querySelector('#btnEquals')
+
+btnEquals.addEventListener('click', () => {
+     const result = operate(num1, num2, operator);
+     display.value = result;
+     num1 = undefined;
+     num2 = undefined;
+     operator = undefined;
 })
