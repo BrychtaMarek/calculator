@@ -1,0 +1,13 @@
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    width: 300px;
+    padding: 10px;
+}
+
+#display {
+    width: 300px;
+    margin-bottom: 10px;
+}

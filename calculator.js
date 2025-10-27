@@ -1,8 +1,3 @@
-// add
-// subtract
-// multiply
-// divide
-
 function add(a, b){
     return a + b;
 }
@@ -37,3 +32,12 @@ function operate(a, b, operator){
 let num1;
 let operator;
 let num2;
+
+const display = document.querySelector('#display')
+const digitsAndOperators = document.querySelectorAll('.digit, .operator')
+
+digitsAndOperators.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+        return display.value = e.target.textContent;
+    })
+})
