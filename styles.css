@@ -2,12 +2,40 @@
     box-sizing: border-box;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: azure;
+}
+
+h1 {
+    margin: auto;
+    margin-bottom: 20px;
+}
+
 .container {
     width: 300px;
-    padding: 10px;
+    outline: solid black 2px;
+    margin: auto;
+    background-color: bisque;
 }
 
 #display {
-    width: 300px;
-    margin-bottom: 10px;
+    width: 280px;
+    margin: 10px;
+    height: 40px;
+    text-align: right;
+    font-size: x-large;
+}
+
+.button-container {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: center;
+}
+
+.button {
+    margin: 5px;
+    width: 60px;
 }
