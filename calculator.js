@@ -42,16 +42,27 @@ const digitsAndOperators = document.querySelectorAll('.digit, .operator')
 digitsAndOperators.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         const isDigit = e.target.classList.contains('digit');
+        const isOperator = e.target.classList.contains('operator');
         const value = e.target.textContent;
 
-        if (!num1 && isDigit) {
+        if (num1 && num2){
+            //debugger
+            const result = operate(num1, num2, operator);
+            display.value = result;
+            num1 = result;
+            num2 = undefined;
+        }
+        else if (!num1 && isDigit) {
             num1 = Number(value)
         } else if ( num1 && isDigit){
             num2 = Number(value)
-        } else {
+        } else if (isOperator) {
             operator = value
+        } 
+
+        if (isDigit){
+            display.value = e.target.textContent;
         }
-        return display.value = e.target.textContent;
     })
 })
 
