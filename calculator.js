@@ -18,18 +18,30 @@ function divide(a, b){
 }
 
 function operate(a, b, operator){
+    let equals;
     switch (operator) {
         case '+':
-            return add(a, b);
+            equals = add(a, b);
+            break;
         case '-':
-            return subtract(a, b)
+            equals = subtract(a, b);
+            break;
         case '*':
-            return multiply(a, b)
+            equals = multiply(a, b);
+            break;
         case '/':
-            return divide(a, b)
+            equals = divide(a, b);
+            break;
         default:
             break;
     }
+    return round(equals, 4)
+}
+
+function round(value, decimals){
+    const multiplier = Math.pow(10, decimals)
+    console.log(multiplier)
+    return Math.round(value * multiplier) / multiplier
 }
 
 let num1;
