@@ -81,9 +81,11 @@ digitsAndOperators.forEach((btn) => {
 const btnEquals = document.querySelector('#btnEquals')
 
 btnEquals.addEventListener('click', () => {
+    if (num1 && num2 && operator) {
      const result = operate(num1, num2, operator);
      display.value = result;
      num1 = undefined;
      num2 = undefined;
      operator = undefined;
+    }
 })
