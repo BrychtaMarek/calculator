@@ -89,3 +89,12 @@ btnEquals.addEventListener('click', () => {
      operator = undefined;
     }
 })
+
+const btnClear = document.querySelector('#reset')
+
+btnClear.addEventListener('click', (e) => {
+    display.value = '';
+     num1 = undefined;
+     num2 = undefined;
+     operator = undefined;
+})
