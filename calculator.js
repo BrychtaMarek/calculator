@@ -55,7 +55,7 @@ const operators = document.querySelectorAll('.operator')
 let isSecondNumberStarted = false;
 let isEqualsCalled = false;
 
-function handleButton(value, type){
+function handleInputs(value, type){
     
     if (type === 'digit') {
         // Type into num2 when having operator
@@ -89,7 +89,7 @@ function handleButton(value, type){
             num2 += value;
             btnDisplay.value += value;
             return;
-        }
+        } 
     }
 
     if (type === 'operator') {
@@ -108,14 +108,14 @@ function handleButton(value, type){
 digits.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         const value = e.target.textContent;
-        handleButton(value, 'digit');
+        handleInputs(value, 'digit');
     })
 })
 
 operators.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         const value = e.target.textContent;
-        handleButton(value, 'operator');
+        handleInputs(value, 'operator');
     })
 })
 
@@ -168,7 +168,7 @@ btnDecimal.addEventListener('click', () => {
     handleDecimalPoint();  
 });
 
-//Delete btn
+// Delete btn
 function deleteDigit(){
 if (num1 && !isSecondNumberStarted){
         if (num1.length === 1){
@@ -206,7 +206,7 @@ document.body.addEventListener('keyup', (e) => {
 
     const operators = ['/', '*', '+', '-'];
     if (operators.includes(key)){
-        handleButton(key, 'operator');
+        handleInputs(key, 'operator');
     }
 
     if(key === 'Backspace'){
@@ -219,6 +219,6 @@ document.body.addEventListener('keyup', (e) => {
 
     key = Number(key);
     if (key >= 0 && key <= 9){
-        handleButton(String(key), 'digit');
+        handleInputs(String(key), 'digit');
     }
 })
