@@ -35,7 +35,6 @@ function operate(a, b, operator) {
             break;
     }
 
-    console.log(typeof(equals))
     if (typeof (equals) === 'number') {
         return round(equals, 4);
     } else return equals;
@@ -164,4 +163,28 @@ btnDecimal.addEventListener('click', () => {
         num2 += '.';
     }
 });
+
+//Backspace btn
+const btnDelete = document.querySelector('#delete');
+btnDelete.addEventListener('click', () => {
+    if (num1 && !isSecondNumberStarted){
+        if (num1.length === 1){
+            num1 = undefined;
+            btnDisplay.value = '';
+        } else {
+            num1 = num1.slice(0, - 1);
+            btnDisplay.value = num1;
+        }
+    }
+
+    if (num2 && isSecondNumberStarted){
+        if (num2.length === 1){
+            num2 = undefined;
+            btnDisplay.value = '';
+        } else {
+            num2 = num2.slice(0, - 1);
+            btnDisplay.value = num2;
+        }
+    }
+})
 
