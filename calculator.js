@@ -121,10 +121,8 @@ operators.forEach((btn) => {
 
 
 // Equals button behaviour
-const btnEquals = document.querySelector('#btnEquals')
-btnEquals.addEventListener('click', () => {
-    
-    if (num1 && (num2 || num2 === 0) && operator) {
+function equals(){
+        if (num1 && (num2 || num2 === 0) && operator) {
         const result = operate(num1, num2, operator);
         btnDisplay.value = result;
         num1 = result;
@@ -132,6 +130,10 @@ btnEquals.addEventListener('click', () => {
         operator = undefined;
         isEqualsCalled = true;
     }
+}
+const btnEquals = document.querySelector('#btnEquals')
+btnEquals.addEventListener('click', () => {
+    equals();
 })
 
 
@@ -147,9 +149,7 @@ const btnClear = document.querySelector('#reset');
 btnClear.addEventListener('click', () => reset());
 
 // Decimal point behaviour
-const btnDecimal = document.querySelector('#decimal');
-btnDecimal.addEventListener('click', () => {
-    
+function handleDecimalPoint(){
     num1HasDecimal = num1 ? String(num1).includes('.') : undefined;
     num2HasDecimal = num2 ? String(num2).includes('.') : undefined;
 
@@ -162,12 +162,15 @@ btnDecimal.addEventListener('click', () => {
         btnDisplay.value += '.';
         num2 += '.';
     }
+}
+const btnDecimal = document.querySelector('#decimal');
+btnDecimal.addEventListener('click', () => {
+    handleDecimalPoint();  
 });
 
-//Backspace btn
-const btnDelete = document.querySelector('#delete');
-btnDelete.addEventListener('click', () => {
-    if (num1 && !isSecondNumberStarted){
+//Delete btn
+function deleteDigit(){
+if (num1 && !isSecondNumberStarted){
         if (num1.length === 1){
             num1 = undefined;
             btnDisplay.value = '';
@@ -186,5 +189,36 @@ btnDelete.addEventListener('click', () => {
             btnDisplay.value = num2;
         }
     }
+}
+const btnDelete = document.querySelector('#delete');
+btnDelete.addEventListener('click', () => {
+    deleteDigit();
 })
 
+// Keyboard support
+document.body.addEventListener('keyup', (e) => {
+    
+    let key = e.key;
+    console.log(key)
+    if (key === ' '){
+        return;
+    }
+
+    const operators = ['/', '*', '+', '-'];
+    if (operators.includes(key)){
+        handleButton(key, 'operator');
+    }
+
+    if(key === 'Backspace'){
+        deleteDigit();
+    }
+
+    if(key === '=' || key === 'Enter'){
+        equals();
+    }
+
+    key = Number(key);
+    if (key >= 0 && key <= 9){
+        handleButton(String(key), 'digit');
+    }
+})
