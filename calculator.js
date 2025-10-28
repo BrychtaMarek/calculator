@@ -11,13 +11,9 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    if (b) {
-        return Number(a) / Number(a)
-    } else if (Number(b) === 0) {
-        return 'Zero division'
-    }
-    else return 'NaN'
-
+    if (b === '0') return 'Zero division'
+    const result = Number(a) / Number(b);
+    return result;
 }
 
 function operate(a, b, operator) {
@@ -39,14 +35,14 @@ function operate(a, b, operator) {
             break;
     }
 
-    if (typeof (equals) === Number) {
+    console.log(typeof(equals))
+    if (typeof (equals) === 'number') {
         return round(equals, 4);
     } else return equals;
 }
 
 function round(value, decimals) {
     const multiplier = Math.pow(10, decimals)
-    console.log(multiplier)
     return Math.round(value * multiplier) / multiplier
 }
 
@@ -55,57 +51,92 @@ let operator;
 let num2;
 
 const btnDisplay = document.querySelector('#display')
-const digitsAndOperators = document.querySelectorAll('.digit, .operator')
+const digits = document.querySelectorAll('.digit')
+const operators = document.querySelectorAll('.operator')
 let isSecondNumberStarted = false;
+let isEqualsCalled = false;
 
-digitsAndOperators.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-        const isDigit = e.target.classList.contains('digit');
-        const isOperator = e.target.classList.contains('operator');
-        const value = e.target.textContent;
-        let shouldResetDisplay = false;
+function handleButton(value, type){
+    
+    if (type === 'digit') {
+        // Type into num2 when having operator
+        if (operator){
+            isSecondNumberStarted = true;
+        }
+        // Handle reset of the calc when typing number after having a result
+        if (isEqualsCalled && !operator){
+            num1 = value;
+            btnDisplay.value = value;
+            isEqualsCalled = false;
+            isSecondNumberStarted = false;
+            return;
+        // Handle typing a new number
+        } else if (num1 === undefined){
+            num1 = value;
+            btnDisplay.value = value;
+            return;
+        // Handle typing multiple digits to num1    
+        } else if (!isSecondNumberStarted){
+            num1 += value;
+            btnDisplay.value += value;
+            return;
+        // Handle start of the num2
+        } else if (isSecondNumberStarted && !num2){
+            num2 = value;
+            btnDisplay.value = value;
+            return;
+        // Handle multiple digits to num2
+        } else if (isSecondNumberStarted && num2){
+            num2 += value;
+            btnDisplay.value += value;
+            return;
+        }
+    }
 
-        if (num1 && num2 && isOperator) {
+    if (type === 'operator') {
+        // Handle showing result when addding second operator
+        if (num1 && num2 && operator){
             const result = operate(num1, num2, operator);
             btnDisplay.value = result;
             num1 = result;
             num2 = undefined;
-        }
-        else if (!isSecondNumberStarted && isDigit) {
-            num1 = num1 === undefined ? value : num1 + value;
-        } else if (num1 && isDigit && !num2) {
-            num2 = value;
-            btnDisplay.value = '';
-            shouldResetDisplay = true;
-        } else if (num1 && isDigit && num2) {
-            num2 += value;
-        } else if (isOperator) {
             isSecondNumberStarted = true;
-            operator = value
         }
+        operator = value;  
+    }
+}
 
-        if (isDigit) {
-            if (isSecondNumberStarted && shouldResetDisplay){
-                btnDisplay.value = e.target.textContent;
-            } else {
-                btnDisplay.value += e.target.textContent;
-            }
-        }
+digits.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+        const value = e.target.textContent;
+        handleButton(value, 'digit');
     })
 })
 
-const btnEquals = document.querySelector('#btnEquals')
+operators.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+        const value = e.target.textContent;
+        handleButton(value, 'operator');
+    })
+})
 
+
+// Equals button behaviour
+const btnEquals = document.querySelector('#btnEquals')
 btnEquals.addEventListener('click', () => {
+    
     if (num1 && (num2 || num2 === 0) && operator) {
         const result = operate(num1, num2, operator);
         btnDisplay.value = result;
         num1 = result;
         num2 = undefined;
         operator = undefined;
+        isEqualsCalled = true;
     }
 })
 
+
+// Reset button behaviour
 function reset() {
     btnDisplay.value = '';
     num1 = undefined;
@@ -113,7 +144,24 @@ function reset() {
     operator = undefined;
     isSecondNumberStarted = false;
 }
+const btnClear = document.querySelector('#reset');
+btnClear.addEventListener('click', () => reset());
 
-const btnClear = document.querySelector('#reset')
+// Decimal point behaviour
+const btnDecimal = document.querySelector('#decimal');
+btnDecimal.addEventListener('click', () => {
+    
+    num1HasDecimal = num1 ? String(num1).includes('.') : undefined;
+    num2HasDecimal = num2 ? String(num2).includes('.') : undefined;
 
-btnClear.addEventListener('click', () => reset())
+    if (!isSecondNumberStarted && !num1HasDecimal && num1){
+        btnDisplay.value += '.';
+        num1 += '.';
+    }
+
+    if (isSecondNumberStarted && !num2HasDecimal && num2){
+        btnDisplay.value += '.';
+        num2 += '.';
+    }
+});
+
