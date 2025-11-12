@@ -93,6 +93,12 @@ function handleInputs(value, type){
     }
 
     if (type === 'operator') {
+        // Handle negative number as the first number      
+        if (!num1 && !num2 && value === '-') {
+            num1 = '-'
+            btnDisplay.value = num1;
+            return
+        }
         // Handle showing result when addding second operator
         if (num1 && num2 && operator){
             const result = operate(num1, num2, operator);
@@ -101,7 +107,7 @@ function handleInputs(value, type){
             num2 = undefined;
             isSecondNumberStarted = true;
         }
-        operator = value;  
+        operator = value; 
     }
 }
 
